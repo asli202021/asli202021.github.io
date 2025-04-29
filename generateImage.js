@@ -1,6 +1,7 @@
 // استيراد مكتبة fetch التي تستخدم لإرسال الطلبات HTTP
 const fetch = require('node-fetch');  // تأكد من أنك قد قمت بتثبيت node-fetch باستخدام npm
 
+
 // دالة لتوليد صورة من النص
 async function generateImage() {
     // النص الذي سيتم إرساله لتوليد الصورة
