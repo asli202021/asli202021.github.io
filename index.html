@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Image Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 100%;
+            padding: 20px;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .image-container {
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>مولد الصور من النصوص باستخدام الذكاء الاصطناعي</h1>
+        <input type="text" id="inputText" placeholder="أدخل النص هنا">
+        <button onclick="generateImage()">إنشاء صورة</button>
+        <div class="image-container" id="imageContainer"></div>
+    </div>
+
+    <script>
+        async function generateImage() {
+            const text = document.getElementById('inputText').value;
+            const apiKey = "YOUR_API_KEY";  // استبدل بـ API Key الخاص بك من Hugging Face
+            const url = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2";
+
+            const headers = {
+                "Authorization": `Bearer ${apiKey}`
+            };
+
+            const data = {
+                "inputs": text
+            };
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                // تحقق إذا كانت الصورة موجودة في الاستجابة
+                if (result && result.data && result.data.length > 0) {
+                    const imageUrl = result.data[0].url;
+                    // عرض الصورة الناتجة
+                    document.getElementById('imageContainer').innerHTML = `<img src="${imageUrl}" alt="Generated Image">`;
+                } else {
+                    alert("حدث خطأ أثناء توليد الصورة");
+                }
+            } else {
+                alert("حدث خطأ في الاتصال بـ API");
+            }
+        }
+    </script>
+</body>
+</html>
