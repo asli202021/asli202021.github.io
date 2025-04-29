@@ -3,26 +3,26 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # عندما تقوم بالدفع إلى الفرع الرئيسي (main)
+      - main  # عندما تقوم بالدفع إلى الـ main branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # بيئة تشغيل لينكس
+    runs-on: ubuntu-latest  # تشغيل العمل على بيئة Linux
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2  # تنزيل الكود من مستودع GitHub
+      uses: actions/checkout@v2  # يقوم بتحميل الكود من مستودع GitHub
 
     - name: Set up Node.js
-      uses: actions/setup-node@v2  # إعداد بيئة Node.js
+      uses: actions/setup-node@v2  # إعداد Node.js
       with:
-        node-version: '14'  # تحديد إصدار Node.js
+        node-version: '14'  # تحديد الإصدار المطلوب من Node.js
 
     - name: Install dependencies
-      run: npm install  # تثبيت التبعيات
+      run: npm install  # تثبيت التبعيات باستخدام npm (إذا كنت تستخدم npm)
 
     - name: Generate image from text using Hugging Face API
       run: |
-        node generateImage.js  # تأكد من أن هذا هو الملف الذي يحتوي على الكود
+        node generateImage.js  # استبدل هذا بالملف الذي يحتوي على الكود
       env:
-        HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}  # تمرير الـ API Token عبر البيئة
+        HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}  # هنا نمرر الـ API Token من GitHub Secrets
